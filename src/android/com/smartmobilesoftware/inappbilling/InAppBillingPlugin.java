@@ -302,6 +302,12 @@ public class InAppBillingPlugin extends CordovaPlugin {
 	// Listener that's called when we finish querying the items and subscriptions we own
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+			
+			if (result.isFailure()) {
+			  // handle error
+			 return;
+		    }
+			
         	Log.d(TAG, "Inside mGotInventoryListener");
         	if (hasErrorsAndUpdateInventory(result, inventory)) return;
 
@@ -313,6 +319,12 @@ public class InAppBillingPlugin extends CordovaPlugin {
     // Listener that's called when we finish querying the details
     IabHelper.QueryInventoryFinishedListener mGotDetailsListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+			
+			if (result.isFailure()) {
+			  // handle error
+			 return;
+		    }
+			
             Log.d(TAG, "Inside mGotDetailsListener");
             if (hasErrorsAndUpdateInventory(result, inventory)) return;
 
