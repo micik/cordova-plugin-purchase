@@ -158,6 +158,13 @@ public class IabHelper {
     // some fields on the getSkuDetails response bundle
     public static final String GET_SKU_DETAILS_ITEM_LIST = "ITEM_ID_LIST";
     public static final String GET_SKU_DETAILS_ITEM_TYPE_LIST = "ITEM_TYPE_LIST";
+	
+	public boolean isAsyncInProgress(){
+		return mAsyncInProgress;
+	}
+	public boolean isSetupDone (){
+		return mSetupDone;
+	}
 
     /**
      * Creates an instance. After creation, it will not yet be ready to use. You must perform
@@ -1004,4 +1011,24 @@ public class IabHelper {
     void logWarn(String msg) {
         Log.w(mDebugTag, "In-app billing warning: " + msg);
     }
+	
+	private void queryPurchasedItems() {
+		//check if user has bought "remove adds"
+		if(mHelper.isSetupDone() && !mHelper.isAsyncInProgress()) {
+			mHelper.queryInventoryAsync(mGotInventoryListener);
+		}
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		queryPurchasedItems();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		queryPurchasedItems();
+		isListEmpty();
+	}
 }
