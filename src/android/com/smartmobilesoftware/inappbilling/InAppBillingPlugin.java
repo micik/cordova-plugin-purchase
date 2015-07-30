@@ -498,16 +498,14 @@ public class InAppBillingPlugin extends CordovaPlugin {
 	}
 	
 	@Override
-	protected void onStart() {
-		super.onStart();
-		queryPurchasedItems();
+	public void onStart() {
+	   super.onStart();
+	   queryPurchasedItems();
 	}
 
-	@Override
 	protected void onResume() {
-		super.onResume();
-		queryPurchasedItems();
-		isListEmpty();
+	   super.onResume(true);
+	   queryPurchasedItems();
 	}
     
 }
