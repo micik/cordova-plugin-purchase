@@ -432,7 +432,7 @@ public class InAppBillingPlugin extends CordovaPlugin {
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (mHelper == null) return;
-		if (resultCode == null) return;
+		//if (resultCode == 0) return;
         Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
 
         // Pass on the activity result to the helper for handling
