@@ -190,8 +190,10 @@ public class InAppBillingPlugin extends CordovaPlugin {
 		
 		this.cordova.setActivityResultCallback(this);
 		
-		mHelper.launchPurchaseFlow(cordova.getActivity(), sku, RC_REQUEST, 
-                mPurchaseFinishedListener, payload);
+		if (!mHelper.isAsyncInProgress()) {
+			mHelper.launchPurchaseFlow(cordova.getActivity(), sku, RC_REQUEST, 
+					mPurchaseFinishedListener, payload);
+		}
 
 	}
 	
@@ -216,7 +218,9 @@ public class InAppBillingPlugin extends CordovaPlugin {
 		this.cordova.setActivityResultCallback(this);
         Log.d(TAG, "Launching purchase flow for subscription.");
 
-		mHelper.launchPurchaseFlow(cordova.getActivity(), sku, IabHelper.ITEM_TYPE_SUBS, RC_REQUEST, mPurchaseFinishedListener, payload);   
+		if (!mHelper.isAsyncInProgress()) {
+			mHelper.launchPurchaseFlow(cordova.getActivity(), sku, IabHelper.ITEM_TYPE_SUBS, RC_REQUEST, mPurchaseFinishedListener, payload);   
+		}
 	}
 	
 
@@ -415,6 +419,7 @@ public class InAppBillingPlugin extends CordovaPlugin {
     
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (mHelper == null) return;
         Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
 
         // Pass on the activity result to the helper for handling
