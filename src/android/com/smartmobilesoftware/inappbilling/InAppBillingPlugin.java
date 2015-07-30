@@ -489,5 +489,25 @@ public class InAppBillingPlugin extends CordovaPlugin {
     		mHelper = null;
     	}
     }
+	
+	private void queryPurchasedItems() {
+		//check if user has bought "remove adds"
+		if(mHelper.isSetupDone() && !mHelper.isAsyncInProgress()) {
+			mHelper.queryInventoryAsync(mGotInventoryListener);
+		}
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		queryPurchasedItems();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		queryPurchasedItems();
+		isListEmpty();
+	}
     
 }
